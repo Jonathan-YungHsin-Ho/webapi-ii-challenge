@@ -4,11 +4,20 @@ const Posts = require('../data/db');
 const router = express.Router();
 
 router.post('/', (req, res) => {
-  // res.send('Hello from the POST /api/posts endpoint');
-  Posts.insert();
+  if (!req.body.title || !req.body.contents) {
+    res.status(400).json({
+      errorMessage: 'Please provide title and contents for the post.',
+    });
+  } else {
+    Posts.insert(req.body)
+      .then(user => res.status(201).json(req.body))
+      .catch(err =>
+        res.status(500).json({
+          error: 'There was an error while saving the post to the database.',
+        }),
+      );
+  }
 });
-
-// calling insert passing it a post object will add it to the database and return an object with the id of the inserted post. The object looks like this: { id: 123 }.
 
 router.post('/:id/comments', (req, res) => {
   // res.send('Hello from the POST /api/posts/:id/comments endpoint');
