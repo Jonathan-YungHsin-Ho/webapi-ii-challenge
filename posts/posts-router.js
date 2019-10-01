@@ -46,11 +46,23 @@ router.get('/:id', (req, res) => {
 });
 
 router.get('/:id/comments', (req, res) => {
-  // res.send('Hello from the GET /api/posts/:id/comments endpoint');
-  Posts.findPostComments();
+  Posts.findPostComments(req.params.id)
+    .then(post => {
+      if (post[0]) {
+        res.status(200).json(post);
+      } else {
+        res.status(404).json({
+          message:
+            'The post with the specified ID either does not exist or currently has no comments associated with it.',
+        });
+      }
+    })
+    .catch(err =>
+      res
+        .status(500)
+        .json({ error: 'The comments information could not be retrieved.' }),
+    );
 });
-
-// the findPostComments accepts a postId as its first parameter and returns all comments on the post associated with the post id.
 
 router.delete('/:id', (req, res) => {
   // res.send('Hello from the DELETE /api/posts/:id endpoint');
