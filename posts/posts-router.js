@@ -104,7 +104,7 @@ router.delete('/:id', (req, res) => {
   Posts.remove(req.params.id)
     .then(post => {
       if (post) {
-        res.status(200).json(post);
+        res.status(200).json(req.params.id);
       } else {
         res
           .status(404)
