@@ -9,7 +9,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get('http://localhost:8000/api/posts')
+      .get('https://webapi-ii-challenge-jyh.herokuapp.com/api/posts')
       .then(res => {
         // console.log(res.data);
         setPosts(res.data);
@@ -19,7 +19,7 @@ function App() {
 
   const handleDelete = id => {
     axios
-      .delete(`http://localhost:8000/api/posts/${id}`)
+      .delete(`https://webapi-ii-challenge-jyh.herokuapp.com/api/posts/${id}`)
       .then(res => {
         // console.log(res);
         setPosts(posts.filter(post => post.id !== Number(res.data)));
